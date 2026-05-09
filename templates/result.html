@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h2 class="mb-4">
+                    Prediction Result
+                </h2>
+
+                <img
+                    src="{{ url_for('static', filename='uploads/' + filename) }}"
+                    class="img-fluid rounded mb-4"
+                    width="400"
+                >
+
+                <h3 class="mb-3">
+                    Result :
+                    <span class="text-primary">
+                        {{ result }}
+                    </span>
+                </h3>
+
+                <h4>
+                    Confidence :
+                    {{ confidence }}%
+                </h4>
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="btn btn-dark mt-4"
+                >
+                    Try Another Image
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
