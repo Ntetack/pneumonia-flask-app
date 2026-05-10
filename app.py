@@ -78,8 +78,8 @@ model.eval()
 # CLASSES
 # =========================
 classes = {
-    0: "NORMAL",
-    1: "BACTERIAL",
+    0: "BACTERIAL",
+    1: "NORMAL",
     2: "VIRAL"
 }
 
