@@ -2,43 +2,33 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="card shadow">
 
-    <div class="col-md-6">
+<div class="card-body">
 
-        <div class="card shadow">
+<h2 class="text-center mb-4">
+Upload Chest X-Ray
+</h2>
 
-            <div class="card-body">
+<form method="POST" enctype="multipart/form-data">
 
-                <h2 class="mb-4 text-center">
-                    Upload Chest X-Ray
-                </h2>
+<div class="mb-3">
 
-                <form method="POST" enctype="multipart/form-data">
+<input
+type="file"
+name="image"
+class="form-control"
+required>
 
-                    <div class="mb-3">
+</div>
 
-                        <input
-                            type="file"
-                            name="image"
-                            class="form-control"
-                            accept="image/*"
-                            required
-                        >
+<button class="btn btn-success w-100">
+Predict
+</button>
 
-                    </div>
+</form>
 
-                    <button class="btn btn-success w-100">
-                        Predict
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 

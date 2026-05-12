@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h2 class="mb-4">
+Prediction History
+</h2>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+<th>Image</th>
+<th>Result</th>
+<th>Confidence</th>
+<th>Date</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for prediction in predictions %}
+
+<tr>
+
+<td>
+<img
+src="{{ url_for('static', filename='uploads/' + prediction.filename) }}"
+width="100">
+</td>
+
+<td>{{ prediction.result }}</td>
+
+<td>{{ prediction.confidence }}%</td>
+
+<td>{{ prediction.created_at }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,371 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+Analytics Dashboard
+</h2>
+
+<!-- FILTERS -->
+
+<div class="mb-4">
+
+<a
+href="{{ url_for('analytics', filter='all') }}"
+class="btn btn-dark">
+
+All
+
+</a>
+
+<a
+href="{{ url_for('analytics', filter='today') }}"
+class="btn btn-primary">
+
+Today
+
+</a>
+
+<a
+href="{{ url_for('analytics', filter='week') }}"
+class="btn btn-success">
+
+Last 7 Days
+
+</a>
+
+<a
+href="{{ url_for('analytics', filter='month') }}"
+class="btn btn-warning">
+
+Last 30 Days
+
+</a>
+
+</div>
+
+<!-- KPI CARDS -->
+
+<div class="row">
+
+<div class="col-md-3 mb-3">
+
+<div class="card bg-primary text-white shadow">
+
+<div class="card-body">
+
+<h5>Total Exams</h5>
+
+<h2>{{ total }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card bg-success text-white shadow">
+
+<div class="card-body">
+
+<h5>Normal</h5>
+
+<h2>{{ normal }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card bg-danger text-white shadow">
+
+<div class="card-body">
+
+<h5>Infected</h5>
+
+<h2>{{ infected }}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card bg-warning shadow">
+
+<div class="card-body">
+
+<h5>Infection Rate</h5>
+
+<h2>{{ infection_rate }}%</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CHARTS -->
+
+
+
+<!-- LINE CHART -->
+
+<div class="row mt-4">
+
+    <!-- LINE CHART -->
+
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h4 class="mb-4">
+                    Exams Evolution
+                </h4>
+
+                <canvas id="lineChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INFECTION RATE CHART -->
+
+    <div class="col-md-6 mb-4">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h4 class="mb-4">
+                    Daily Infection Rate
+                </h4>
+
+                <canvas id="infectionChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+<!-- PIE CHART -->
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4 class="mb-4">
+Cases Distribution
+</h4>
+
+<canvas id="pieChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<!-- RECENT PREDICTIONS -->
+
+<div class="card shadow mt-5">
+
+<div class="card-body">
+
+<h4 class="mb-4">
+Recent Predictions
+</h4>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+<th>Result</th>
+<th>Confidence</th>
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for prediction in recent_predictions %}
+
+<tr>
+
+<td>
+
+<img
+src="{{ url_for('static', filename='uploads/' + prediction.filename) }}"
+width="80">
+
+</td>
+
+<td>{{ prediction.result }}</td>
+
+<td>{{ prediction.confidence }}%</td>
+
+<td>{{ prediction.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- PIE CHART -->
+
+<script>
+
+const pieCtx = document.getElementById('pieChart');
+
+new Chart(pieCtx, {
+
+type: 'pie',
+
+data: {
+
+labels: [
+
+'NORMAL',
+'BACTERIAL',
+'VIRAL'
+
+],
+
+datasets: [{
+
+data: [
+
+{{ normal }},
+{{ bacterial }},
+{{ viral }}
+
+]
+
+}]
+
+}
+
+});
+
+</script>
+
+<!-- LINE CHART -->
+
+<script>
+
+const lineCtx = document.getElementById('lineChart');
+
+new Chart(lineCtx, {
+
+type: 'line',
+
+data: {
+
+labels: {{ line_labels | tojson }},
+
+datasets: [{
+
+label: 'Number of Exams',
+
+data: {{ line_values | tojson }},
+
+fill: false
+
+}]
+
+}
+
+});
+
+</script>
+
+
+
+<script>
+
+const infectionCtx =
+document.getElementById('infectionChart');
+
+new Chart(infectionCtx, {
+
+type: 'line',
+
+data: {
+
+labels: {{ infection_labels | tojson }},
+
+datasets: [{
+
+label: 'Infection Rate (%)',
+
+data: {{ infection_rates | tojson }},
+
+fill: false,
+
+tension: 0.3
+
+}]
+
+},
+
+options: {
+
+scales: {
+
+y: {
+
+beginAtZero: true,
+
+max: 100
+
+}
+
+}
+
+}
+
+});
+
+</script>
+
+{% endblock %}

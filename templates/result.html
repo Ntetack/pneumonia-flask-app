@@ -2,48 +2,38 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="card shadow">
 
-    <div class="col-md-8">
+<div class="card-body text-center">
 
-        <div class="card shadow">
+<h2 class="mb-4">
+Prediction Result
+</h2>
 
-            <div class="card-body text-center">
+<img
+src="{{ url_for('static', filename='uploads/' + filename) }}"
+class="img-fluid rounded mb-4"
+width="400">
 
-                <h2 class="mb-4">
-                    Prediction Result
-                </h2>
+<h3>
+Result :
+<span class="text-primary">
+{{ result }}
+</span>
+</h3>
 
-                <img
-                    src="{{ url_for('static', filename='uploads/' + filename) }}"
-                    class="img-fluid rounded mb-4"
-                    width="400"
-                >
+<h4 class="mt-3">
+Confidence :
+{{ confidence }}%
+</h4>
 
-                <h3 class="mb-3">
-                    Result :
-                    <span class="text-primary">
-                        {{ result }}
-                    </span>
-                </h3>
+<a
+href="{{ url_for('dashboard') }}"
+class="btn btn-dark mt-4">
+Try Again
+</a>
 
-                <h4>
-                    Confidence :
-                    {{ confidence }}%
-                </h4>
-
-                <a
-                    href="{{ url_for('dashboard') }}"
-                    class="btn btn-dark mt-4"
-                >
-                    Try Another Image
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 
